@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+            color: #333;
+        }
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #555;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, button, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #6c63ff;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #574bce;
+        }
+        textarea {
+            resize: none;
+        }
+        .output {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Password Manager</h1>
+        <form id="passwordForm">
+            <label for="website">Website</label>
+            <input type="text" id="website" placeholder="Enter website name" required>
+
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="Enter username" required>
+
+            <label for="password">Password</label>
+            <input type="text" id="password" placeholder="Enter or generate password" required>
+
+            <button type="button" id="generateBtn">Generate Password</button>
+            <button type="submit">Save Password</button>
+        </form>
+        <h2>Saved Passwords</h2>
+        <div id="output" class="output"></div>
+    </div>
+
+    <script>
+        const passwordForm = document.getElementById('passwordForm');
+        const generateBtn = document.getElementById('generateBtn');
+        const outputDiv = document.getElementById('output');
+        const passwords = [];
+
+        // Generate random password
+        generateBtn.addEventListener('click', () => {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
+            let password = '';
+            for (let i = 0; i < 12; i++) {
+                password += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            document.getElementById('password').value = password;
+        });
+
+        // Save password
+        passwordForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const website = document.getElementById('website').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            passwords.push({ website, username, password });
+            displayPasswords();
+
+            // Clear form
+            passwordForm.reset();
+        });
+
+        // Display saved passwords
+        function displayPasswords() {
+            outputDiv.innerHTML = passwords
+                .map(p => Website: ${p.website}\nUsername: ${p.username}\nPassword: ${p.password})
+                .join('\n\n');
+        }
+    </script>
+</body>
+</html>
